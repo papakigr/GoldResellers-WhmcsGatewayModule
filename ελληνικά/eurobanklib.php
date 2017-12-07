@@ -3,7 +3,7 @@
 # Set the Gateway Variables
 $GATEWAYMODULE = array(
     "eurobanklibname" => "eurobanklib",
-    "eurobanklibvisiblename" => "Eurobanklib",
+    "eurobanklibvisiblename" => "Eurobank",
     "eurobanklibtype" => "CC", # Invoices or CC
 );
 
@@ -93,20 +93,18 @@ function eurobanklib_link($params) {
 	$db_name = $params["gatewayDbname"]; //database location
 	
 	
-	if($db_conn_eurobanklib = mysql_connect($host,$user ,$pass))
-		{
-			mysql_select_db($db_name) or die(mysql_error());
-		}
-	else
-	  {
-		die('Could not connect: ' . mysql_error());
-	 }
+	$db_conn_eurobanklib = mysqli_connect($host, $user, $pass, $db_name);
+	
+	if (mysqli_connect_errno()) {
+	  printf("Connect failed: %s\n", mysqli_connect_error());
+	  exit();
+  }
 		
 		
 		$query = "INSERT INTO eurobanklib_transactions( MerchantRef , Amount , Currency , MerchantID) VALUES ('".$reference."','".$price."','".$currency."','".$gatewaymerchantid."')";
 		//echo $query;
 		# perform the query
-		$result=mysql_query($query,$db_conn_eurobanklib);
+		$result=mysqli_query($db_conn_eurobanklib,$query);
 		
 		 
 		 

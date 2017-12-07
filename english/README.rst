@@ -2,9 +2,8 @@ WhmcsGatewayModule
 ==================
 
 Gateway Module for payments via Eurobank
-
-
-
+Version: 2.0
+Compatible with WHMCS v6.0 and newer.
 
 1) You have to have accounts in Eurobank. 
 Eurobank requests 5 urls. The 5 urls are the following 

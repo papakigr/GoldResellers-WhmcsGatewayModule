@@ -2,8 +2,8 @@ WhmcsGatewayModule
 ==================
 
 Οδηγίες για την εγκατάσταση του module της Εurobank για πληρωμή μέσω Πιστωτικής κάρτας
-
-
+Version: 2.0
+Compatible with WHMCS v6.0 and newer.
 
 
 1) Αρχικά επικοινωνήτε με τη EuroBank η οποία θα σας ζητήσει 5 urls.

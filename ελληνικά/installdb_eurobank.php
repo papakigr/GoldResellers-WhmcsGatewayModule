@@ -1,7 +1,9 @@
 <?PHP 
 
-
-include("dbconnect.php");
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+//include("dbconnect.php");
+require_once __DIR__ . '/init.php';
 include("includes/functions.php");
 include("includes/gatewayfunctions.php");
 include("includes/invoicefunctions.php");
@@ -18,16 +20,13 @@ include("includes/invoicefunctions.php");
 	$user = $GATEWAY["gatewayDbUsername"]; //database location
 	$pass = $GATEWAY["gatewayDbPassword"]; //database location
 	$db_name = $GATEWAY["gatewayDbname"]; //database location
-	
-	
-	if($db_conn_eurobanklib = mysql_connect($host,$user ,$pass))
-		{
-			mysql_select_db($db_name) or die(mysql_error());
-		}
-	else
-	  {
-		die('Could not connect: ' . mysql_error());
-	 }
+  
+  $db_conn_eurobanklib = mysqli_connect($host, $user, $pass, $db_name);
+  
+  if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
 
 
 
@@ -55,9 +54,15 @@ $query="CREATE TABLE `eurobanklib_confirmation` (
   `shop` varchar(45) NOT NULL default '',
   PRIMARY KEY  (`id`)
 )";
-
-$result=mysql_query($query,$db_conn_eurobanklib);
-  
+ 
+if (mysqli_query($db_conn_eurobanklib,$query) === TRUE) {
+  printf("Table eurobanklib_confirmation successfully created.<br>");
+}
+else{
+  echo "An error occured. Try again [1]";
+  echo "<p>MySQL Error #" . mysqli_errno($db_conn_eurobanklib) . "</b></p><p>" . mysqli_error($db_conn_eurobanklib) . "</p>"; 
+  die("");
+}
 $query="CREATE TABLE `eurobanklib_transactions` (
   `MerchantRef` varchar(45) NOT NULL default '',
   `Amount` double NOT NULL default '0',
@@ -66,29 +71,18 @@ $query="CREATE TABLE `eurobanklib_transactions` (
   `id` int(11) NOT NULL auto_increment,
   PRIMARY KEY  USING BTREE (`id`)
 )";
-
-$result=mysql_query($query,$db_conn_eurobanklib);
-
-
-
-
-
  
-	
-if(mysql_error()){
- 
- 
- echo "Δημιουργήθηκε κάποιο σφάλμα κατά τη δημιουργία των πινάκων. Προσπαθήστε ξανά.";
- echo "<p>MySQL Error #" . mysql_errno() . "</b></p><p>" . mysql_error() . "</p>"; 
-		die("");
+if (mysqli_query($db_conn_eurobanklib,$query) === TRUE) {
+  printf("Table eurobanklib_transactions successfully created.<br>");
 }
 else{
-echo "Πραγματοποιήθηκε επιτυχώς η δημιουργία των πινάκων ";
-?>
-  
-
-<?PHP 
+  echo "An error occured. Try again [2]";
+  echo "<p>MySQL Error #" . mysqli_errno($db_conn_eurobanklib) . "</b></p><p>" . mysqli_error($db_conn_eurobanklib) . "</p>"; 
+  die("");
 }
+
+  echo "Completed Successfully";
+
 
 
 ?>

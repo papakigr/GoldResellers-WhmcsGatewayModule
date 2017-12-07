@@ -1,7 +1,8 @@
 <?php
 
 # Required File Includes
-include("../../../dbconnect.php");
+//include("../../../dbconnect.php");
+require_once __DIR__ . '/../../../init.php';
 include("../../../includes/functions.php");
 include("../../../includes/gatewayfunctions.php");
 include("../../../includes/invoicefunctions.php");
@@ -29,15 +30,13 @@ $allok=1;
 	$db_name = $GATEWAY["gatewayDbname"]; //database location
 	
 	
-	if($db_conn_eurobanklib = mysql_connect($host,$user ,$pass))
-		{
-			mysql_select_db($db_name) or die(mysql_error());
-		}
-	else
-	  {
-		die('Could not connect: ' . mysql_error());
-	 }
- 
+	$db_conn_eurobanklib = mysqli_connect($host, $user, $pass, $db_name);
+	
+	if (mysqli_connect_errno()) {
+	  printf("Connect failed: %s\n", mysqli_connect_error());
+	  exit();
+  }
+
 
 
 # queries 
@@ -45,8 +44,8 @@ $sql="SELECT * FROM eurobanklib_transactions where MerchantRef='".$_POST["Ref"].
 
 #perform the querries
 
-$rs=mysql_query(  $sql,$db_conn_eurobanklib) or die(" ".mysql_error()); 
-$rs_debug=mysql_query(  $sql,$db_conn_eurobanklib) or die(" ".mysql_error()); 
+$rs=mysqli_query($db_conn_eurobanklib,$sql) or die(" ".mysqli_error($db_conn_eurobanklib)); 
+$rs_debug=mysqli_query( $db_conn_eurobanklib, $sql) or die(" ".mysqli_error($db_conn_eurobanklib)); 
 
 
 if (!$rs)
@@ -54,9 +53,9 @@ if (!$rs)
 exit("Error in SQL[NOTOK]");
 } 
 
-$rows_debug =mysql_fetch_array($rs_debug);
+$rows_debug =mysqli_fetch_array($rs_debug);
 
-while ($rows=mysql_fetch_array($rs)){
+while ($rows=mysqli_fetch_array($rs)){
 $mid=$rows["MerchantID"];
 $mr=  $rows["MerchantRef"];
 $am=  $rows["Amount"];

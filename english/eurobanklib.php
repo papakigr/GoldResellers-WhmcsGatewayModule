@@ -3,7 +3,7 @@
 # Set the Gateway Variables
 $GATEWAYMODULE = array(
     "eurobanklibname" => "eurobanklib",
-    "eurobanklibvisiblename" => "Eurobanklib",
+    "eurobanklibvisiblename" => "Eurobank",
     "eurobanklibtype" => "CC", # Invoices or CC
 );
 
@@ -30,13 +30,12 @@ function eurobanklib_link($params) {
 	//$gatewayusername = $params['username'];
 	//$gatewaytestmode = $params['testmode'];
 	$url=$params['gatewayBankurl'];
-	 
 	# Invoice Variables
 	$invoiceid = $params['invoiceid'];
 	$description = $params["description"];
     $amount = $params['amount']; # Format: ##.##
     $currency = $params['gatewaycurrency']; # Currency Code
-	 $language = $params['gatewaylang']; # Currency Code
+	$language = $params['gatewaylang']; # Currency Code
 
 	# Client Variables
 	$firstname = $params['clientdetails']['firstname'];
@@ -86,27 +85,24 @@ function eurobanklib_link($params) {
 		<input type="submit" value="Pay">
 </form>';
 
-		
 	$host = $params["gatewayDbRoot"]; //database location
 	$user = $params["gatewayDbUsername"]; //database location
 	$pass = $params["gatewayDbPassword"]; //database location
 	$db_name = $params["gatewayDbname"]; //database location
 	
 	
-	if($db_conn_eurobanklib = mysql_connect($host,$user ,$pass))
-		{
-			mysql_select_db($db_name) or die(mysql_error());
-		}
-	else
-	  {
-		die('Could not connect: ' . mysql_error());
-	 }
+	$db_conn_eurobanklib = mysqli_connect($host, $user, $pass, $db_name);
+	
+	if (mysqli_connect_errno()) {
+	  printf("Connect failed: %s\n", mysqli_connect_error());
+	  exit();
+  }
 		
 		
 		$query = "INSERT INTO eurobanklib_transactions( MerchantRef , Amount , Currency , MerchantID) VALUES ('".$reference."','".$price."','".$currency."','".$gatewaymerchantid."')";
 		//echo $query;
 		# perform the query
-		$result=mysql_query($query,$db_conn_eurobanklib);
+		$result=mysqli_query($db_conn_eurobanklib,$query);
 		
 		 
 		 
@@ -114,9 +110,6 @@ function eurobanklib_link($params) {
 	
 	return $code;
 }
-
-
-
  
 
 ?>

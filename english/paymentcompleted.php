@@ -2,10 +2,11 @@
 
 define("CLIENTAREA",true);
 //define("FORCESSL",true); # Uncomment to force the page to use https://
-
-require("dbconnect.php");
+ 
+//require("dbconnect.php");
+require_once __DIR__ . '/init.php';
 require("includes/functions.php");
-require("includes/clientareafunctions.php");
+//require("includes/clientareafunctions.php");
 
 $pagetitle = $_LANG['clientareatitle'];
 $breadcrumbnav = '<a href="index.php">'.$_LANG['globalsystemname'].'</a>';
@@ -40,7 +41,7 @@ if ($_SESSION['uid']) {
 # Define the template filename to be used without the .tpl extension
 
 $templatefile = "paymentcompleted"; 
-
+ 
 outputClientArea($templatefile);
 
 ?>
