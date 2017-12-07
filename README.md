@@ -1,5 +1,5 @@
 # GoldResellers-WhmcsGatewayModule
-==Ελληνικά
+Ελληνικά
 
 Δίνει τη δυνατότητα χρέωσης Πιστωτικής κάρτας στο whmcs μέσω της Eurobank. 
 Συμβατό με WHMCS έκδοση 6.x και έπειτα.
@@ -7,7 +7,7 @@
 Για παλιά έκδοση ProxyPay χρησιμοποιείστε τα αρχεία που βρίσκονται στο φάκελο "ελληνικά".
 Για νεότερη έκδοση ProxyPay (Υποστήριξη 3DSecure) χρησιμοποιείστε τα αρχεία που βρίσκονται στο φάκελο "v3.x".
 
-==English==
+English
 
 Gateway Module for payments via Eurobank
 Compatible with WHMCS v6.0 and newer.
