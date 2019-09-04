@@ -22,7 +22,7 @@ $txId = $_POST['txId'];
 $riskScore = isset($_POST['riskScore']) ? $_POST['riskScore'] : '';
 $message = isset($_POST['message']) ? $_POST['message'] : '';
 $payMethod = isset($_POST['payMethod']) ? $_POST['payMethod'] : '';
-$invoiceId = $orderid;
+$invoiceId = $_POST['var1'];
 $form_data = '';
 foreach ($_POST as $k => $v) {
     if (!in_array($k, array('_charset_', 'digest', 'submitButton'))) {

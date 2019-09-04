@@ -3,7 +3,7 @@
 Eurobank WhmcsGatewayModule
 ===========================
 Gateway Module for payments via Eurobank
-Version: 3.0
+Version: 4.0
 */
 # Set the Gateway Variables
 $GATEWAYMODULE = array(
@@ -42,10 +42,11 @@ function eurobanklib_link($params)
     $testmode = $params['testmode'];
 
     $url = 'https://vpos.eurocommerce.gr/vpos/shophandlermpi';
-    if ($params['testmode'] == "on") {
+    if ($testmode== "on") {
         $url = 'https://euro.test.modirum.com/vpos/shophandlermpi';
     }
-    # Client Variables
+
+    // Client Parameters
     $firstname = $params['clientdetails']['firstname'];
     $lastname = $params['clientdetails']['lastname'];
     $email = $params['clientdetails']['email'];
@@ -56,40 +57,50 @@ function eurobanklib_link($params)
     $postcode = $params['clientdetails']['postcode'];
     $country = $params['clientdetails']['country'];
     $phone = $params['clientdetails']['phonenumber'];
-    $email = $params['clientdetails']['email'];
-    # System Variables
-    $companyname = $params['companyname'];
-    $systemurl = $params['systemurl'];
+    // System Parameters
+    $companyName = $params['companyname'];
+    $systemUrl = $params['systemurl'];
+    $returnUrl = $params['returnurl'];
+    $langPayNow = $params['langpaynow'];
+    $moduleDisplayName = $params['name'];
+    $moduleName = $params['paymentmethod'];
+    $whmcsVersion = $params['whmcsVersion'];
 
 
-    # Enter your code submit to the gateway...
+
     $gatewaymerchantid = $params['gatewaymerchantid'];
     $price = $amount;
-    $reference = $invoiceid . " " . date("his");
-
 
     $form_data_array = array(
+        'version' => 2,
         'mid' => $gatewaymerchantid,
         'lang' => $language,
         'deviceCategory' => '0',
-        'orderid' => $invoiceid,
+        'orderid' => $invoiceid . ' ' . date('Ymdhisu'),
         'orderDesc' => 'Order #' . $invoiceid,
         'orderAmount' => $price,
         'currency' => $currency,
         'payerEmail' => $email,
-        'confirmUrl' => $systemurl . "modules/gateways/callback/eurobankreturn.php?result=success",
-        'cancelUrl' => $systemurl . "modules/gateways/callback/eurobankreturn.php?result=failure",
+        'billCountry' => $country,
+        'billState' => $state,
+        'billZip' => $postcode,
+        'billCity' => $city,
+        'billAddress' => $address1,
+        'confirmUrl' => $systemUrl . "modules/gateways/callback/eurobankreturn.php?result=success",
+        'cancelUrl' => $systemUrl . "modules/gateways/callback/eurobankreturn.php?result=failure",
+        'var1' => $invoiceid
     );
+
     $form_secret = $params['gatewaymerchantpassword'];
-    $form_data = utf8_encode(implode("", $form_data_array)) . $form_secret;
+    $form_data = iconv('utf-8', 'utf-8//IGNORE', implode("", $form_data_array)). $form_secret;
 
     $digest = calculate_digest($form_data);
 
     $html = '<form name="PayformVisa" action="' . $url . '" method="post" id="eb_payment_form" target="_top" accept-charset="UTF-8">';
     foreach ($form_data_array as $key => $value) {
-        $html .= '<input type="hidden" id="' . $key . '" name="' . $key . '" value="' . utf8_encode($value) . '"/>';
+        $html .= '<input type="hidden" id="' . $key . '" name="' . $key . '" value="' . iconv('utf-8', 'utf-8//IGNORE', $value) . '"/>';
     }
-    $html .= '<input type="hidden" id="digest" name="digest" value="' . ($digest) . '"/>';
+    $html .= '<input type="hidden" id="digest" name="digest" value="' . $digest . '"/>';
     $html .= '<input type="submit" value="Pay"></form>';
     $code = $html;
 
@@ -98,7 +109,8 @@ function eurobanklib_link($params)
 
 function calculate_digest($input)
 {
-    $digest = base64_encode(sha1(($input), true));
+
+    $digest = base64_encode(hash('sha256', ($input), true));
 
     return $digest;
 }
