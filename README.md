@@ -17,9 +17,9 @@ Compatible with WHMCS v6.0 and newer, Eurobank Cardlink Payment Gateway - Redire
     PaymentNotCompleted:                 https://www.mysite.gr/whmcs/modules/gateways/callback/eurobankreturn.php?result=failure
     
     where https://www.mysite.gr/whmcs is your whmcs folder destination
-2) Upload the file  eurobanklib.php in the folder whmcs/modules/gateways 
+2) Upload the file  modules/gateways/eurobanklib.php in the folder https://www.mysite.gr/whmcs/modules/gateways 
 
-3) Upload the file  callback/eurobankreturn.php in the folder whmcs/modules/gateways/callback
+3) Upload the file  modules/gateways/callback/eurobankreturn.php in the folder https://www.mysite.gr/whmcs/modules/gateways/callback
 
 4) Login to whmcs admin panel kai select : Setup -> Payment Gateways
 activate  Εurobank module
@@ -48,10 +48,10 @@ Greek
     όπου λέει https://www.mysite.gr/whmcs εσείς θα βάλετε το ακριβές μονοπάτι
     που οδηγεί στον φάκελο που έχετε το whmcs
 
-2) Θα ανεβάσετε στον φάκελο whmcs/modules/gateways το αρχείο eurobanklib.php
+2) Θα ανεβάσετε στον φάκελο https://www.mysite.gr/whmcs/modules/gateways το αρχείο modules/gateways/eurobanklib.php
 που θα βρείτε στο zip που έχετε κάνει download
 
-3) Θα ανεβάσετε στον φάκελο whmcs/modules/gateways/callback το αρχείο callback/eurobankreturn.php
+3) Θα ανεβάσετε στον φάκελο https://www.mysite.gr/whmcs/modules/gateways/callback το αρχείο modules/gateways/callback/eurobankreturn.php
 που θα βρείτε στο zip που έχετε κάνει download
 
 4) Θα μπειτε στο admin του whmcs και θα επιλέξετε: Setup -> Payment Gateways
