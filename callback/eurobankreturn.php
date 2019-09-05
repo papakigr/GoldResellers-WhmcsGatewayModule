@@ -22,7 +22,9 @@ $txId = $_POST['txId'];
 $riskScore = isset($_POST['riskScore']) ? $_POST['riskScore'] : '';
 $message = isset($_POST['message']) ? $_POST['message'] : '';
 $payMethod = isset($_POST['payMethod']) ? $_POST['payMethod'] : '';
-$invoiceId = $_POST['var1'];
+$BankOrderId= $_POST['orderid'];
+$pieces = explode("Inv", $BankOrderId);
+$orderid = $pieces[0];
 $form_data = '';
 foreach ($_POST as $k => $v) {
     if (!in_array($k, array('_charset_', 'digest', 'submitButton'))) {
@@ -42,11 +44,11 @@ if ($digest != $post_digest) {
         if ($status == 'CAPTURED') {
             $Ref = $txId;
             $Amount = $orderAmount;
-            $invoiceId = checkCbInvoiceID($invoiceId,
+            $invoiceId = checkCbInvoiceID($orderid,
                 $GATEWAY["name"]); # Checks invoice ID is a valid invoice number or ends processing
             checkCbTransID($Ref); # Checks transaction number isn't already in the database and ends processing if it does            
             logTransaction($GATEWAY["name"], $_POST, "Successful"); # Save to Gateway Log: name, data array, status
-            addInvoicePayment($invoiceId, $Ref, $Amount, 0,
+            addInvoicePayment($orderid, $Ref, $Amount, 0,
                 $gatewaymodule); # Apply Payment to Invoice: invoiceid, transactionid, amount paid, fees, modulename
             $paymentSuccess = true;
         } else {
@@ -70,4 +72,4 @@ if ($digest != $post_digest) {
         }
     }
 }
-callback3DSecureRedirect($invoiceId, $paymentSuccess);
+callback3DSecureRedirect($orderid, $paymentSuccess);

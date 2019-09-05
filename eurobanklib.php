@@ -76,7 +76,7 @@ function eurobanklib_link($params)
         'mid' => $gatewaymerchantid,
         'lang' => $language,
         'deviceCategory' => '0',
-        'orderid' => $invoiceid . ' ' . date('Ymdhisu'),
+        'orderid' => $invoiceid  .'Inv'. date('Ymdhis'),
         'orderDesc' => 'Order #' . $invoiceid,
         'orderAmount' => $price,
         'currency' => $currency,
@@ -87,8 +87,8 @@ function eurobanklib_link($params)
         'billCity' => $city,
         'billAddress' => $address1,
         'confirmUrl' => $systemUrl . "modules/gateways/callback/eurobankreturn.php?result=success",
-        'cancelUrl' => $systemUrl . "modules/gateways/callback/eurobankreturn.php?result=failure",
-        'var1' => $invoiceid
+        'cancelUrl' => $systemUrl . "modules/gateways/callback/eurobankreturn.php?result=failure"
+
     );
 
     $form_secret = $params['gatewaymerchantpassword'];
